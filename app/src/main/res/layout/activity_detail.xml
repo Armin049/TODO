@@ -60,11 +60,12 @@
         android:id="@+id/Priority"
         android:layout_width="295dp"
         android:layout_height="61dp"
+        android:entries="@array/priority"
         app:layout_constraintBottom_toTopOf="@+id/cancel"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        app:layout_constraintTop_toBottomOf="@+id/textView3"/>
 
     <Button
         android:id="@+id/cancel"
