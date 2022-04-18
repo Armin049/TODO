@@ -21,6 +21,7 @@
         android:layout_width="155dp"
         android:layout_height="60dp"
         android:text="neuer Eintrag"
+        android:onClick="NewActivity"
         app:layout_constraintBottom_toTopOf="@+id/recyclerView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
