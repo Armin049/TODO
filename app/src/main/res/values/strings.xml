@@ -2,6 +2,5 @@
     <string name="app_name">TODO</string>
 
     <string-array name="priority">
-        <item></item>
     </string-array>
 </resources>

@@ -1,9 +1,22 @@
 package com.example.todo.Entity;
 
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "todo")
+import org.jetbrains.annotations.NotNull;
+
+@Entity(tableName = "todo",
+        foreignKeys = {
+                @ForeignKey(
+                        entity = Todo.class,
+                        parentColumns = "id",
+                        childColumns = "priorityId",
+                        onDelete = ForeignKey.CASCADE
+                )},
+        indices = { @Index(value = "id")}
+)
 public class Todo {
 
     @PrimaryKey(autoGenerate = true)
@@ -12,13 +25,16 @@ public class Todo {
     public String Beschreibung;
     public String datetime;
 
+    public long priorityId;
+
     public Todo() {
     }
 
-    public Todo(String titel, String beschreibung, String datetime) {
+    public Todo(String titel, String beschreibung, String datetime, long priorityId) {
         Titel = titel;
         Beschreibung = beschreibung;
         this.datetime = datetime;
+        this.priorityId=priorityId;
     }
 
     public long getId() {
@@ -51,5 +67,13 @@ public class Todo {
 
     public void setDatetime(String datetime) {
         this.datetime = datetime;
+    }
+
+    public long getPriorityId() {
+        return priorityId;
+    }
+
+    public void setPriorityId(long priorityId) {
+        this.priorityId = priorityId;
     }
 }

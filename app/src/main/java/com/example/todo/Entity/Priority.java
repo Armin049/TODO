@@ -5,22 +5,11 @@ import androidx.room.ForeignKey;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "priority",
-        foreignKeys = {
-                @ForeignKey(
-                        entity = Todo.class,
-                        parentColumns = "id",
-                        childColumns = "priorityId",
-                        onDelete = ForeignKey.CASCADE
-                )},
-        indices = { @Index(value = "id")}
-)
+@Entity(tableName = "priority")
 public class Priority {
 
     @PrimaryKey(autoGenerate = true)
     public long priorityId;
-
-    public long id;
 
     public String name;
 

@@ -21,6 +21,9 @@ public interface PriorityDao {
     @Query("SELECT * FROM priority WHERE name=:name")
     List<Priority> getPriorityByName(String name);
 
+    @Query("SELECT * FROM priority WHERE priorityId=:id")
+    List<Priority> getPriorityByID(long id);
+
     @Query("DELETE FROM priority where PriorityId=:id")
     void deleteById(long id);
 }

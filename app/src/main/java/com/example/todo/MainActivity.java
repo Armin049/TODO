@@ -1,18 +1,22 @@
 package com.example.todo;
 
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.todo.Entity.Category;
 import com.example.todo.Entity.Priority;
 import com.example.todo.Entity.Todo;
+import com.example.todo.Lists.PriorityAdapter;
+import com.example.todo.Lists.TodoAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,15 +27,15 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
-    myAdapter adapter;
+    TodoAdapter adapter;
 
-    public void getTodos(){
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+    public void getTodos() {
+        recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        List<Todo> todos=database.todoDao().getAllTodos();
-        mAdapter = new myAdapter(todos);
+        List<Todo> todos = database.todoDao().getAllTodos();
+        mAdapter = new TodoAdapter(todos);
         recyclerView.setAdapter(mAdapter);
         database.close();
     }
@@ -41,32 +45,71 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         database = AppDatabase.getDatabase(getApplicationContext());
-        List<Category> cat=database.categoryDao().getAllCategory();
-        if (cat.size()==0){
-            database.categoryDao().addCategory(new Category("Gering"));
-            database.categoryDao().addCategory(new Category("Mittel"));
-            database.categoryDao().addCategory(new Category("Hoch"));
+        List<Priority> cat = database.priorityDao().getAllPriority();
+        if (cat.size() == 0) {
+            database.priorityDao().addPriority(new Priority("Gering"));
+            database.priorityDao().addPriority(new Priority("Mittel"));
+            database.priorityDao().addPriority(new Priority("Hoch"));
         }
         getTodos();
-        }
-
-    public void createTodo(View view){
-        database = AppDatabase.getDatabase(getApplicationContext());
-        EditText Titel =findViewById(R.id.Titel);
-        EditText Beschreibung =findViewById(R.id.description);
-        EditText date =findViewById(R.id.Date);
-            database.todoDao().addTodo(new Todo(Titel.getText().toString(), Beschreibung.getText().toString(), date.getText().toString()));
-            setContentView(R.layout.activity_main);
-            getTodos();
     }
 
-    public void edit(long id){
-        System.out.println("main: "+id);
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        Configuration config = getResources().getConfiguration();
+        switch (config.screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) {
+            case Configuration.SCREENLAYOUT_SIZE_XLARGE:
+                return true;
+            default: {
+                getMenuInflater().inflate(R.menu.menu, menu);
+                return true;
+            }
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.einstellungen:
+//                setContentView(R.layout.);
+                return true;
+            case R.id.Category:
+                setContentView(R.layout.change_categories);
+                return true;
+            case R.id.Prioritys:
+                recyclerView = findViewById(R.id.recyclerView);
+                recyclerView.setHasFixedSize(true);
+                layoutManager = new LinearLayoutManager(this);
+                recyclerView.setLayoutManager(layoutManager);
+                List<Priority> prio = database.priorityDao().getAllPriority();
+                mAdapter = new PriorityAdapter(prio);
+                recyclerView.setAdapter(mAdapter);
+                database.close();
+                setContentView(R.layout.change_prioritys);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    public void createTodo(View view) {
+        database = AppDatabase.getDatabase(getApplicationContext());
+        EditText Titel = findViewById(R.id.Titel);
+        EditText Beschreibung = findViewById(R.id.description);
+        EditText date = findViewById(R.id.Date);
+        Spinner spinner = (Spinner)findViewById(R.id.Priority);
+        database.todoDao().addTodo(new Todo(Titel.getText().toString(), Beschreibung.getText().toString(), date.getText().toString(),1));
+        setContentView(R.layout.activity_main);
+        getTodos();
+    }
+
+    public void edit(long id) {
 
     }
 
     public void NewActivity(View view) {
         setContentView(R.layout.activity_detail);
+        getData();
     }
 
     public void cancel(View view) {
@@ -74,13 +117,17 @@ public class MainActivity extends AppCompatActivity {
         getTodos();
     }
 
-    public void getData()
-    {
+    public void getData() {
         List<String> priority = new ArrayList<String>();
         database = AppDatabase.getDatabase(getApplicationContext());
-        List<Priority>prio= database.priorityDao().getAllPriority();
-        for (int i= 0;i<prio.size();i++){
-             priority.add(prio.get(i).name);
+        List<Priority>prio=database.priorityDao().getAllPriority();
+        for (int i=0;i<prio.size();i++){
+            priority.add(prio.get(i).name);
         }
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                this, android.R.layout.simple_spinner_item, priority);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        Spinner sItems = (Spinner) findViewById(R.id.Priority);
+        sItems.setAdapter(adapter);
     }
 }
