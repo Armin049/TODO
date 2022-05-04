@@ -2,9 +2,6 @@
     <string name="app_name">TODO</string>
 
     <string-array name="priority">
-        <item>gering</item>
-        <item>mittel</item>
-        <item>hoch</item>
-        <item>sehr hoch</item>
+        <item></item>
     </string-array>
 </resources>

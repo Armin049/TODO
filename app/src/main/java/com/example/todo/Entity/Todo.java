@@ -12,20 +12,44 @@ public class Todo {
     public String Beschreibung;
     public String datetime;
 
-    enum Prioritaet{
-        gering,
-        mittel,
-        hoch,
-        sehr_hoch
-    };
-
     public Todo() {
     }
 
-    public Todo(long id, String titel, String beschreibung, String datetime) {
-        this.id = id;
+    public Todo(String titel, String beschreibung, String datetime) {
         Titel = titel;
         Beschreibung = beschreibung;
+        this.datetime = datetime;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getTitel() {
+        return Titel;
+    }
+
+    public void setTitel(String titel) {
+        Titel = titel;
+    }
+
+    public String getBeschreibung() {
+        return Beschreibung;
+    }
+
+    public void setBeschreibung(String beschreibung) {
+        Beschreibung = beschreibung;
+    }
+
+    public String getDatetime() {
+        return datetime;
+    }
+
+    public void setDatetime(String datetime) {
         this.datetime = datetime;
     }
 }
