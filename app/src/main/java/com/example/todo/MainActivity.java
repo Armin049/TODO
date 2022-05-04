@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         EditText Beschreibung = findViewById(R.id.descriptionEdit);
         EditText date = findViewById(R.id.DateEdit);
         Spinner spinner = (Spinner)findViewById(R.id.PriorityEdit);
-        database.todoDao().addTodo(new Todo(Titel.getText().toString(), Beschreibung.getText().toString(), date.getText().toString(),1));
+        database.todoDao().addTodo(new Todo(Titel.getText().toString(), Beschreibung.getText().toString(), date.getText().toString(),spinner.getSelectedItemId()));
         setContentView(R.layout.activity_main);
         getTodos();
     }
