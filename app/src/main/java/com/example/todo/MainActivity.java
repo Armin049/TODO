@@ -106,8 +106,8 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         database = AppDatabase.getDatabase(getApplicationContext());
         EditText Titel = findViewById(R.id.TitelEdit);
         EditText Beschreibung = findViewById(R.id.descriptionEdit);
-        EditText date = findViewById(R.id.Date);
-        Spinner spinner = (Spinner)findViewById(R.id.Priority);
+        EditText date = findViewById(R.id.DateEdit);
+        Spinner spinner = (Spinner)findViewById(R.id.PriorityEdit);
         database.todoDao().addTodo(new Todo(Titel.getText().toString(), Beschreibung.getText().toString(), date.getText().toString(),1));
         setContentView(R.layout.activity_main);
         getTodos();
@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     public void NewActivity(View view) {
         setContentView(R.layout.activity_detail);
         getData();
-        EditText editText=findViewById(R.id.Date);
+        EditText editText=findViewById(R.id.DateEdit);
         editText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -145,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(
                 this, android.R.layout.simple_spinner_item, priority);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        Spinner sItems = (Spinner) findViewById(R.id.Priority);
+        Spinner sItems = (Spinner) findViewById(R.id.PriorityEdit);
         sItems.setAdapter(adapter);
     }
 
@@ -162,7 +162,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         calendar.set(Calendar.MONTH,month);
         calendar.set(Calendar.DAY_OF_MONTH,day);
         String currentDate= DateFormat.getDateInstance().format(calendar.getTime());
-        EditText editText=findViewById(R.id.Date);
+        EditText editText=findViewById(R.id.DateEdit);
         editText.setText(currentDate);
     }
 
@@ -170,7 +170,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     public void onNoteClick(int position) {
         List<Todo> todos = database.todoDao().getAllTodos();
         Intent intent=new Intent(this,EditTodoActivity.class);
-        intent.putExtra("ID", todos.get(position).getTitel());
+        intent.putExtra("ID", todos.get(position).getId());
         startActivity(intent);
     }
 }
