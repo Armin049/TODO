@@ -1,15 +1,18 @@
 package com.example.todo;
 
+import android.app.DatePickerDialog;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,10 +21,12 @@ import com.example.todo.Entity.Todo;
 import com.example.todo.Lists.PriorityAdapter;
 import com.example.todo.Lists.TodoAdapter;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
     private AppDatabase database;
     private RecyclerView recyclerView;
@@ -113,6 +118,14 @@ public class MainActivity extends AppCompatActivity {
     public void NewActivity(View view) {
         setContentView(R.layout.activity_detail);
         getData();
+        EditText editText=findViewById(R.id.Date);
+        editText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DialogFragment datePicker = new DatePickerFragment();
+                datePicker.show(getSupportFragmentManager(),"date picker");
+            }
+        });
     }
 
     public void cancel(View view) {
@@ -138,5 +151,16 @@ public class MainActivity extends AppCompatActivity {
         EditText prio = findViewById(R.id.neuePrioritaet);
         database.priorityDao().addPriority(new Priority(prio.getText().toString()));
         setContentView(R.layout.activity_main);
+    }
+
+    @Override
+    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+        Calendar calendar= Calendar.getInstance();
+        calendar.set(Calendar.YEAR,year);
+        calendar.set(Calendar.MONTH,month);
+        calendar.set(Calendar.DAY_OF_MONTH,day);
+        String currentDate= DateFormat.getDateInstance().format(calendar.getTime());
+        EditText editText=findViewById(R.id.Date);
+        editText.setText(currentDate);
     }
 }

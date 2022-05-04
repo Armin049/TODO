@@ -30,6 +30,16 @@ public class PriorityAdapter extends RecyclerView.Adapter<PriorityAdapter.ViewHo
         }
     }
 
+    public void add(int position, Priority item) {
+        priorities.add(position, item);
+        notifyItemInserted(position);
+    }
+
+    public void remove(int position) {
+        priorities.remove(position);
+        notifyItemRemoved(position);
+    }
+
     public PriorityAdapter(List<Priority> priorities) {
         this.priorities = priorities;
     }
