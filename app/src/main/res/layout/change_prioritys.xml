@@ -18,24 +18,25 @@
         app:layout_constraintTop_toBottomOf="@+id/neueKategorie" />
 
     <Button
-        android:id="@+id/neueKategorie"
+        android:id="@+id/neuePrio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Priorität hinzufügen"
+        android:onClick="neuePrio"
         app:layout_constraintBottom_toTopOf="@+id/zuruck"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/editTextTextPersonName"
+        app:layout_constraintStart_toEndOf="@+id/neuePrioritaet"
         app:layout_constraintTop_toBottomOf="@+id/recyclerViewPrio" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/neuePrioritaet"
         android:layout_width="172dp"
         android:layout_height="39dp"
         android:ems="10"
         android:text=""
         app:layout_constraintBottom_toTopOf="@+id/zuruck"
-        app:layout_constraintEnd_toStartOf="@+id/neueKategorie"
+        app:layout_constraintEnd_toStartOf="@+id/neuePrio"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/recyclerViewPrio" />
@@ -44,7 +45,7 @@
         android:id="@+id/recyclerViewPrio"
         android:layout_width="412dp"
         android:layout_height="306dp"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTextPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/neuePrioritaet"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"

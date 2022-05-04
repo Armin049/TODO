@@ -1,10 +1,11 @@
 package com.example.todo.Lists;
 
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.todo.Entity.Priority;
@@ -19,29 +20,34 @@ public class PriorityAdapter extends RecyclerView.Adapter<PriorityAdapter.ViewHo
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView prio;
         public View layout;
+        public Button delete;
 
         public ViewHolder(View v) {
             super(v);
             layout = v;
             prio = (TextView) v.findViewById(R.id.PrioLine);
+            delete = v.findViewById(R.id.buttonDelete);
         }
     }
-
 
     public PriorityAdapter(List<Priority> priorities) {
         this.priorities = priorities;
     }
 
-    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return null;
+    public PriorityAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,int viewType) {
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        View v =
+                inflater.inflate(R.layout.display_prio, parent, false);
+        ViewHolder vh = new ViewHolder(v);
+
+        return vh;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder,final int position) {
         final Priority priority=priorities.get(position);
-        holder.prio.setText(priority.name);
+        holder.prio.setText(priority.getName());
     }
 
     @Override

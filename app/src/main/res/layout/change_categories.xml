@@ -25,11 +25,11 @@
         app:layout_constraintBottom_toTopOf="@+id/zuruck"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/editTextTextPersonName"
+        app:layout_constraintStart_toEndOf="@+id/neuePrioritaet"
         app:layout_constraintTop_toBottomOf="@+id/recyclerViewCategorie" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/neuePrioritaet"
         android:layout_width="172dp"
         android:layout_height="39dp"
         android:ems="10"
@@ -44,7 +44,7 @@
         android:id="@+id/recyclerViewCategorie"
         android:layout_width="412dp"
         android:layout_height="306dp"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTextPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/neuePrioritaet"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"

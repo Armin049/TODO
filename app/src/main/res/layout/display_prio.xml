@@ -6,12 +6,21 @@
 
     <TextView
         android:id="@+id/PrioLine"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="282dp"
+        android:layout_height="58dp"
         android:layout_alignWithParentIfMissing="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="0dp"
+        android:layout_toLeftOf="@id/buttonDelete"
         android:gravity="center_vertical"
         android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/buttonDelete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delete" />
 
 </RelativeLayout>

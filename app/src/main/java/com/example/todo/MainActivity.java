@@ -27,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
-    TodoAdapter adapter;
 
     public void getTodos() {
         recyclerView = findViewById(R.id.recyclerView);
@@ -37,7 +36,6 @@ public class MainActivity extends AppCompatActivity {
         List<Todo> todos = database.todoDao().getAllTodos();
         mAdapter = new TodoAdapter(todos);
         recyclerView.setAdapter(mAdapter);
-        database.close();
     }
 
     @Override
@@ -52,6 +50,12 @@ public class MainActivity extends AppCompatActivity {
             database.priorityDao().addPriority(new Priority("Hoch"));
         }
         getTodos();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        database.close();
     }
 
     @Override
@@ -84,7 +88,6 @@ public class MainActivity extends AppCompatActivity {
                 List<Priority> prio = database.priorityDao().getAllPriority();
                 mAdapter = new PriorityAdapter(prio);
                 recyclerView.setAdapter(mAdapter);
-                database.close();
                 setContentView(R.layout.change_prioritys);
                 return true;
             default:
@@ -129,5 +132,11 @@ public class MainActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         Spinner sItems = (Spinner) findViewById(R.id.Priority);
         sItems.setAdapter(adapter);
+    }
+
+    public void neuePrio(View view){
+        EditText prio = findViewById(R.id.neuePrioritaet);
+        database.priorityDao().addPriority(new Priority(prio.getText().toString()));
+        setContentView(R.layout.activity_main);
     }
 }
