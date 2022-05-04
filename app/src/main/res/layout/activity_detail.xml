@@ -8,7 +8,7 @@
 
 
     <EditText
-        android:id="@+id/Titel"
+        android:id="@+id/TitelEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -23,8 +23,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Titel"
-        app:layout_constraintBottom_toTopOf="@+id/Titel"
-        app:layout_constraintStart_toStartOf="@+id/Titel"
+        app:layout_constraintBottom_toTopOf="@+id/TitelEdit"
+        app:layout_constraintStart_toStartOf="@+id/TitelEdit"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -32,12 +32,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Beschreibung"
-        app:layout_constraintBottom_toTopOf="@+id/description"
-        app:layout_constraintStart_toStartOf="@+id/description"
-        app:layout_constraintTop_toBottomOf="@+id/Titel" />
+        app:layout_constraintBottom_toTopOf="@+id/descriptionEdit"
+        app:layout_constraintStart_toStartOf="@+id/descriptionEdit"
+        app:layout_constraintTop_toBottomOf="@+id/TitelEdit" />
 
     <EditText
-        android:id="@+id/description"
+        android:id="@+id/descriptionEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -106,6 +106,6 @@
         android:text="Datum"
         app:layout_constraintBottom_toTopOf="@+id/Date"
         app:layout_constraintStart_toStartOf="@+id/Date"
-        app:layout_constraintTop_toBottomOf="@+id/description" />
+        app:layout_constraintTop_toBottomOf="@+id/descriptionEdit" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
