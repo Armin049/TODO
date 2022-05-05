@@ -44,7 +44,7 @@ public class EditTodoActivity extends AppCompatActivity {
         titel.setText(todo.get(0).Titel);
         desc.setText(todo.get(0).getBeschreibung());
         date.setText(todo.get(0).datetime);
-        List<Priority>prio=database.priorityDao().getPriorityByID(todo.get(0).getPriorityId());
+        List<Priority>prio=database.priorityDao().getPriorityByID(todo.get(0).getPriorityId()-1);
         spinner.setSelection((int) prio.get(0).priorityId);
     }
 
@@ -66,5 +66,7 @@ public class EditTodoActivity extends AppCompatActivity {
         Spinner sItems = (Spinner) findViewById(R.id.PriorityEdit);
         sItems.setAdapter(adapter);
     }
+
+
 
 }
