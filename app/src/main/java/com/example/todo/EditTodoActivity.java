@@ -18,6 +18,7 @@ import java.util.List;
 public class EditTodoActivity extends AppCompatActivity {
 
     private AppDatabase database;
+    private long TodoID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,13 +40,14 @@ public class EditTodoActivity extends AppCompatActivity {
         } else {
             id = (Long) savedInstanceState.getSerializable("ID");
         }
+        TodoID=id;
         database = AppDatabase.getDatabase(getApplicationContext());
         List<Todo> todo=database.todoDao().getTodoById(id);
         titel.setText(todo.get(0).Titel);
         desc.setText(todo.get(0).getBeschreibung());
         date.setText(todo.get(0).datetime);
         List<Priority>prio=database.priorityDao().getPriorityByID(todo.get(0).getPriorityId());
-        spinner.setSelection((int) prio.get(0).priorityId);
+        spinner.setSelection((int) prio.get(0).priorityId-1);
     }
 
     public void back(View view) {
@@ -65,6 +67,12 @@ public class EditTodoActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         Spinner sItems = (Spinner) findViewById(R.id.PriorityEdit);
         sItems.setAdapter(adapter);
+    }
+
+    public void delete(View view){
+        database.todoDao().deleteById(TodoID);
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 
 }
