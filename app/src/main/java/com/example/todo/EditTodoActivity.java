@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.todo.Entity.Priority;
 import com.example.todo.Entity.Todo;
@@ -18,6 +19,8 @@ import java.util.List;
 public class EditTodoActivity extends AppCompatActivity {
 
     private AppDatabase database;
+    private long TodoID;
+    private RecyclerView.Adapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,13 +42,14 @@ public class EditTodoActivity extends AppCompatActivity {
         } else {
             id = (Long) savedInstanceState.getSerializable("ID");
         }
+        TodoID=id;
         database = AppDatabase.getDatabase(getApplicationContext());
         List<Todo> todo=database.todoDao().getTodoById(id);
         titel.setText(todo.get(0).Titel);
         desc.setText(todo.get(0).getBeschreibung());
         date.setText(todo.get(0).datetime);
-        List<Priority>prio=database.priorityDao().getPriorityByID(todo.get(0).getPriorityId()-1);
-        spinner.setSelection((int) prio.get(0).priorityId);
+        List<Priority>prio=database.priorityDao().getPriorityByID(todo.get(0).getPriorityId());
+        spinner.setSelection((int) prio.get(0).priorityId-1);   //-1 because the DB starts with 1 and the Array with 0
     }
 
     public void back(View view) {
@@ -67,6 +71,11 @@ public class EditTodoActivity extends AppCompatActivity {
         sItems.setAdapter(adapter);
     }
 
-
+    public void delete(View view){
+        database.todoDao().deleteById(TodoID);
+        Intent intent=new Intent(this,MainActivity.class);
+        startActivity(intent);
+        mAdapter.notifyItemRemoved((int) TodoID);
+    }
 
 }

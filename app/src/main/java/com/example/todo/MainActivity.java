@@ -140,8 +140,8 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         List<String> priority = new ArrayList<String>();
         database = AppDatabase.getDatabase(getApplicationContext());
         List<Priority>prio=database.priorityDao().getAllPriority();
-        for (int i=0;i<prio.size();i++){
-            priority.add(prio.get(i).name);
+        for (int i=1;i<=prio.size();i++){       //starting by 1 and later substracting by 1 used to prevent outOfBound Exception
+            priority.add(prio.get(i-1).name);
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(
                 this, android.R.layout.simple_spinner_item, priority);
