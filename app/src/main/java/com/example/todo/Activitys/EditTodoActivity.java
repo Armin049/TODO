@@ -95,25 +95,17 @@ public class EditTodoActivity extends AppCompatActivity implements DatePickerDia
         startActivity(intent);
     }
 
+    //todo update
     public void update(View view){
-        database = AppDatabase.getDatabase(getApplicationContext());
-        List<Todo> todo=database.todoDao().getTodoById(TodoID);
-        String titel=todo.get(0).Titel;
-        String desc =todo.get(0).getBeschreibung();
-        String date=todo.get(0).datetime;
-        List<Priority>prio=database.priorityDao().getPriorityByID(todo.get(0).getPriorityId());
-        Todo oldTodo= new Todo(titel,desc,date,prio.get(0).priorityId-1);
-
         EditText titeln = findViewById(R.id.TitelEdit);
         EditText descn = findViewById(R.id.descriptionEdit);
         EditText daten = findViewById(R.id.DateEdit);
         Spinner spinner= findViewById(R.id.PriorityEdit);
-        Todo newTodo=new Todo(titeln.getText().toString(),descn.getText().toString(),
-                daten.getText().toString(),spinner.getSelectedItemId());
-        //todo update
-        if (!oldTodo.equals(newTodo)){
-            database.todoDao().updateTodo(newTodo);
-        }
+            List<Todo> todoo=database.todoDao().getTodoById(TodoID);
+            todoo.get(0).setTitel(titeln.getText().toString());
+            todoo.get(0).setBeschreibung(descn.getText().toString());
+            todoo.get(0).setDatetime(daten.getText().toString());
+            todoo.get(0).setPriorityId(spinner.getSelectedItemId());
         Intent intent=new Intent(this,MainActivity.class);
         startActivity(intent);
     }

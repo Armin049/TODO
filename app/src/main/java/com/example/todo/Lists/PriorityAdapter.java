@@ -3,6 +3,7 @@ package com.example.todo.Lists;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,7 +18,6 @@ public class PriorityAdapter extends RecyclerView.Adapter<PriorityAdapter.ViewHo
     private List<Priority> prioritys;
     private OnNoteListenerPrio mOnNoteListenerPrio;
 
-
     public PriorityAdapter(List<Priority> myDataset, OnNoteListenerPrio onNoteListenerPrio) {
         prioritys = myDataset;
         mOnNoteListenerPrio = onNoteListenerPrio;
@@ -25,18 +25,18 @@ public class PriorityAdapter extends RecyclerView.Adapter<PriorityAdapter.ViewHo
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView Titel;
-        public TextView Description;
+        public Button button;
         public View layout;
         OnNoteListenerPrio onNoteListenerPrio;
 
         public ViewHolder(@NonNull View v, OnNoteListenerPrio onNoteListenerPrio) {
             super(v);
             layout = v;
-            Titel = (TextView) v.findViewById(R.id.firstLine);
-            Description = (TextView) v.findViewById(R.id.secondLine);
+            Titel = (TextView) v.findViewById(R.id.PrioLine);
+            button = (Button) v.findViewById(R.id.buttonDelete);
             this.onNoteListenerPrio = onNoteListenerPrio;
 
-            v.setOnClickListener(this);
+            button.setOnClickListener(this);
         }
 
         @Override
@@ -59,16 +59,15 @@ public class PriorityAdapter extends RecyclerView.Adapter<PriorityAdapter.ViewHo
     public ViewHolder onCreateViewHolder(ViewGroup parent,int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View v =
-                inflater.inflate(R.layout.zeile, parent, false);
+                inflater.inflate(R.layout.display_prio, parent, false);
         ViewHolder vh = new ViewHolder(v, mOnNoteListenerPrio);
-
         return vh;
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        final Priority Priority = prioritys.get(position);
-
+        final Priority priority = prioritys.get(position);
+        holder.Titel.setText(priority.getName());
     }
 
     @Override

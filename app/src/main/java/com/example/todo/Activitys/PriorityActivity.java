@@ -1,16 +1,21 @@
 package com.example.todo.Activitys;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.todo.Lists.PriorityAdapter;
 import com.example.todo.AppDatabase;
 import com.example.todo.Entity.Priority;
+import com.example.todo.Entity.Todo;
+import com.example.todo.Lists.PriorityAdapter;
 import com.example.todo.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PriorityActivity extends AppCompatActivity implements PriorityAdapter.OnNoteListenerPrio{
@@ -19,22 +24,51 @@ public class PriorityActivity extends AppCompatActivity implements PriorityAdapt
     private RecyclerView.Adapter mAdapter;
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
+    private ArrayList<Priority> prio;
 
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.change_prioritys);
-
-//        List<Priority> prio = database.priorityDao().getAllPriority();
-//        System.out.println(prio);
-//        recyclerView = findViewById(R.id.recyclerView);
-//        layoutManager = new LinearLayoutManager(this);
-//        recyclerView.setLayoutManager(layoutManager);
-//        mAdapter = new PriorityAdapter(prio,this);
-//        recyclerView.setAdapter(mAdapter);
+        database = AppDatabase.getDatabase(getApplicationContext());
+        List<Priority> prio = database.priorityDao().getAllPriority();
+        recyclerView = findViewById(R.id.recyclerViewPrio);
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        mAdapter = new PriorityAdapter(prio,this);
+        recyclerView.setAdapter(mAdapter);
     }
 
     @Override
     public void onNoteClick(int position) {
+        List<Todo> todo=database.todoDao().getAllTodos();
+        long id=prio.get(position).getPriorityId();
+//        for (int i=0;i<todo.size();i++){
+//            if (todo.get(i).getPriorityId() == id) {
+//                if (id<1) {
+//                    todo.get(i).setPriorityId(id+1);
+//                }
+//                else{
+//                    todo.get(i).setPriorityId(id-1);
+//                }
+//            }
+//        }
+        database.priorityDao().deleteById(id);
+        Intent intent=new Intent(this,MainActivity.class);
+        startActivity(intent);
+    }
 
+    public void neuePrio(View view){
+        EditText neuePrio = findViewById(R.id.neuePrioritaet);
+        if (neuePrio != null){
+            database.priorityDao().addPriority(new Priority(neuePrio.getText().toString()));
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }
+    }
+
+    public void cancel(View view) {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 }

@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         EditText date = findViewById(R.id.DateEdit);
         Spinner spinner = (Spinner) findViewById(R.id.PriorityEdit);
         database.todoDao().addTodo(new Todo(Titel.getText().toString(),
-                Beschreibung.getText().toString(), date.getText().toString(), spinner.getSelectedItemId() + 1));
+                Beschreibung.getText().toString(), date.getText().toString(), spinner.getSelectedItemId() + 1));    //array starts by 0 but DB with 1 -> +1
         setContentView(R.layout.activity_main);
         getTodos();
     }
@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         List<String> priority = new ArrayList<String>();
         database = AppDatabase.getDatabase(getApplicationContext());
         List<Priority> prio = database.priorityDao().getAllPriority();
-        for (int i = 1; i <= prio.size(); i++) {       //starting by 1 and later substracting by 1 used to prevent outOfBound Exception
+        for (int i = 1; i <= prio.size(); i++) {       //starting by 1 and later substracting by 1, used to prevent outOfBound Exception
             priority.add(prio.get(i - 1).name);
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(
