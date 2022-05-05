@@ -22,14 +22,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Kategorie hinzufügen"
+        android:onClick="newCategorie"
         app:layout_constraintBottom_toTopOf="@+id/zuruck"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/neuePrioritaet"
+        app:layout_constraintStart_toEndOf="@+id/neueCategory"
         app:layout_constraintTop_toBottomOf="@+id/recyclerViewCategorie" />
 
     <EditText
-        android:id="@+id/neuePrioritaet"
+        android:id="@+id/neueCategory"
         android:layout_width="172dp"
         android:layout_height="39dp"
         android:ems="10"
@@ -44,7 +45,7 @@
         android:id="@+id/recyclerViewCategorie"
         android:layout_width="412dp"
         android:layout_height="306dp"
-        app:layout_constraintBottom_toTopOf="@+id/neuePrioritaet"
+        app:layout_constraintBottom_toTopOf="@+id/neueCategory"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"

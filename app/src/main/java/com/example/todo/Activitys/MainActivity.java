@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.todo.AppDatabase;
 import com.example.todo.DatePickerFragment;
+import com.example.todo.Entity.Category;
 import com.example.todo.Entity.Priority;
 import com.example.todo.Entity.Todo;
 import com.example.todo.Lists.TodoAdapter;
@@ -52,11 +53,18 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         database = AppDatabase.getDatabase(getApplicationContext());
-        List<Priority> cat = database.priorityDao().getAllPriority();
-        if (cat.size() == 0) {
+        List<Priority> prio = database.priorityDao().getAllPriority();
+        List<Category> cat = database.categoryDao().getAllCategory();
+        if (prio.size() == 0) {
             database.priorityDao().addPriority(new Priority("Gering"));
             database.priorityDao().addPriority(new Priority("Mittel"));
             database.priorityDao().addPriority(new Priority("Hoch"));
+        }
+        if (cat.size()==0){
+            database.categoryDao().addCategory(new Category("Arbeiten"));
+            database.categoryDao().addCategory(new Category("Uni"));
+            database.categoryDao().addCategory(new Category("Freizeit"));
+            database.categoryDao().addCategory(new Category("Einkaufen"));
         }
         getTodos();
     }
