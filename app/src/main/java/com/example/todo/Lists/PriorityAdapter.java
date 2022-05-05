@@ -3,9 +3,9 @@ package com.example.todo.Lists;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.todo.Entity.Priority;
@@ -13,55 +13,71 @@ import com.example.todo.R;
 
 import java.util.List;
 
-public class PriorityAdapter extends RecyclerView.Adapter<PriorityAdapter.ViewHolder>{
+public class PriorityAdapter extends RecyclerView.Adapter<PriorityAdapter.ViewHolder> {
+    private List<Priority> prioritys;
+    private OnNoteListenerPrio mOnNoteListenerPrio;
 
-    private List<Priority> priorities;
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView prio;
+    public PriorityAdapter(List<Priority> myDataset, OnNoteListenerPrio onNoteListenerPrio) {
+        prioritys = myDataset;
+        mOnNoteListenerPrio = onNoteListenerPrio;
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        public TextView Titel;
+        public TextView Description;
         public View layout;
-        public Button delete;
+        OnNoteListenerPrio onNoteListenerPrio;
 
-        public ViewHolder(View v) {
+        public ViewHolder(@NonNull View v, OnNoteListenerPrio onNoteListenerPrio) {
             super(v);
             layout = v;
-            prio = (TextView) v.findViewById(R.id.PrioLine);
-            delete = v.findViewById(R.id.buttonDelete);
+            Titel = (TextView) v.findViewById(R.id.firstLine);
+            Description = (TextView) v.findViewById(R.id.secondLine);
+            this.onNoteListenerPrio = onNoteListenerPrio;
+
+            v.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            onNoteListenerPrio.onNoteClick(getAdapterPosition());
         }
     }
 
     public void add(int position, Priority item) {
-        priorities.add(position, item);
+        prioritys.add(position, item);
         notifyItemInserted(position);
     }
 
     public void remove(int position) {
-        priorities.remove(position);
+        prioritys.remove(position);
         notifyItemRemoved(position);
     }
 
-    public PriorityAdapter(List<Priority> priorities) {
-        this.priorities = priorities;
-    }
-
     @Override
-    public PriorityAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent,int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View v =
-                inflater.inflate(R.layout.display_prio, parent, false);
-        ViewHolder vh = new ViewHolder(v);
+                inflater.inflate(R.layout.zeile, parent, false);
+        ViewHolder vh = new ViewHolder(v, mOnNoteListenerPrio);
 
         return vh;
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder,final int position) {
-        final Priority priority=priorities.get(position);
-        holder.prio.setText(priority.getName());
+    public void onBindViewHolder(ViewHolder holder, final int position) {
+        final Priority Priority = prioritys.get(position);
+
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return prioritys.size();
+    }
+
+
+    public interface OnNoteListenerPrio {
+        void onNoteClick(int position);
     }
 }

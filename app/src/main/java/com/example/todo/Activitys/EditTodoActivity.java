@@ -1,22 +1,31 @@
-package com.example.todo;
+package com.example.todo.Activitys;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.todo.AppDatabase;
+import com.example.todo.DatePickerFragment;
 import com.example.todo.Entity.Priority;
 import com.example.todo.Entity.Todo;
+import com.example.todo.R;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
-public class EditTodoActivity extends AppCompatActivity {
+public class EditTodoActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
 
     private AppDatabase database;
     private long TodoID;
@@ -50,6 +59,14 @@ public class EditTodoActivity extends AppCompatActivity {
         date.setText(todo.get(0).datetime);
         List<Priority>prio=database.priorityDao().getPriorityByID(todo.get(0).getPriorityId());
         spinner.setSelection((int) prio.get(0).priorityId-1);   //-1 because the DB starts with 1 and the Array with 0
+        EditText editText = findViewById(R.id.DateEdit);
+        editText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DialogFragment datePicker = new DatePickerFragment();
+                datePicker.show(getSupportFragmentManager(), "date picker");
+            }
+        });
     }
 
     public void back(View view) {
@@ -71,11 +88,44 @@ public class EditTodoActivity extends AppCompatActivity {
         sItems.setAdapter(adapter);
     }
 
+    //todo solve Bug
     public void delete(View view){
         database.todoDao().deleteById(TodoID);
         Intent intent=new Intent(this,MainActivity.class);
         startActivity(intent);
-        mAdapter.notifyItemRemoved((int) TodoID);
     }
 
+    public void update(View view){
+        database = AppDatabase.getDatabase(getApplicationContext());
+        List<Todo> todo=database.todoDao().getTodoById(TodoID);
+        String titel=todo.get(0).Titel;
+        String desc =todo.get(0).getBeschreibung();
+        String date=todo.get(0).datetime;
+        List<Priority>prio=database.priorityDao().getPriorityByID(todo.get(0).getPriorityId());
+        Todo oldTodo= new Todo(titel,desc,date,prio.get(0).priorityId-1);
+
+        EditText titeln = findViewById(R.id.TitelEdit);
+        EditText descn = findViewById(R.id.descriptionEdit);
+        EditText daten = findViewById(R.id.DateEdit);
+        Spinner spinner= findViewById(R.id.PriorityEdit);
+        Todo newTodo=new Todo(titeln.getText().toString(),descn.getText().toString(),
+                daten.getText().toString(),spinner.getSelectedItemId());
+        //todo update
+        if (!oldTodo.equals(newTodo)){
+            database.todoDao().updateTodo(newTodo);
+        }
+        Intent intent=new Intent(this,MainActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+        Calendar calendar= Calendar.getInstance();
+        calendar.set(Calendar.YEAR,year);
+        calendar.set(Calendar.MONTH,month);
+        calendar.set(Calendar.DAY_OF_MONTH,day);
+        String currentDate= DateFormat.getDateInstance().format(calendar.getTime());
+        EditText editText=findViewById(R.id.DateEdit);
+        editText.setText(currentDate);
+    }
 }

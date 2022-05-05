@@ -10,16 +10,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.todo.Entity.Todo;
-import com.example.todo.MainActivity;
 import com.example.todo.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
     private List<Todo> todos;
     private OnNoteListener mOnNoteListener;
-
 
     public TodoAdapter(List<Todo> myDataset,OnNoteListener onNoteListener) {
         todos = myDataset;

@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TODO">
         <activity
-            android:name=".MainActivity"
+            android:name=".Activitys.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -18,7 +18,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".EditTodoActivity"/>
+        <activity android:name=".Activitys.EditTodoActivity"/>
+        <activity android:name=".Activitys.PriorityActivity"/>
+        <activity android:name=".Activitys.CategoryActivity"/>
     </application>
 
 </manifest>

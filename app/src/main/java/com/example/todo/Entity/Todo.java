@@ -5,8 +5,6 @@ import androidx.room.ForeignKey;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-import org.jetbrains.annotations.NotNull;
-
 @Entity(tableName = "todo",
         foreignKeys = {
                 @ForeignKey(
