@@ -1,6 +1,8 @@
 package com.example.todo.Activitys;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -11,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
@@ -28,6 +31,7 @@ import com.example.todo.R;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TodoAdapter.OnNoteListener {
@@ -101,48 +105,9 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         }
     }
 
-    public void createTodo(View view) {
-        database = AppDatabase.getDatabase(getApplicationContext());
-        EditText Titel = findViewById(R.id.TitelEdit);
-        EditText Beschreibung = findViewById(R.id.descriptionEdit);
-        EditText date = findViewById(R.id.DateEdit);
-        Spinner spinner = (Spinner) findViewById(R.id.PriorityEdit);
-        database.todoDao().addTodo(new Todo(Titel.getText().toString(),
-                Beschreibung.getText().toString(), date.getText().toString(), spinner.getSelectedItemId() + 1));    //array starts by 0 but DB with 1 -> +1
-        setContentView(R.layout.activity_main);
-        getTodos();
-    }
-
     public void NewActivity(View view) {
-        setContentView(R.layout.activity_detail);
-        getData();
-        EditText editText = findViewById(R.id.DateEdit);
-        editText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DialogFragment datePicker = new DatePickerFragment();
-                datePicker.show(getSupportFragmentManager(), "date picker");
-            }
-        });
-    }
-
-    public void cancel(View view) {
-        setContentView(R.layout.activity_main);
-        getTodos();
-    }
-
-    public void getData() {
-        List<String> priority = new ArrayList<String>();
-        database = AppDatabase.getDatabase(getApplicationContext());
-        List<Priority> prio = database.priorityDao().getAllPriority();
-        for (int i = 1; i <= prio.size(); i++) {       //starting by 1 and later substracting by 1, used to prevent outOfBound Exception
-            priority.add(prio.get(i - 1).name);
-        }
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-                this, android.R.layout.simple_spinner_item, priority);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        Spinner sItems = (Spinner) findViewById(R.id.PriorityEdit);
-        sItems.setAdapter(adapter);
+        Intent intent = new Intent(this, NewTodoActivity.class);
+        startActivity(intent);
     }
 
     public void neuePrio(View view) {

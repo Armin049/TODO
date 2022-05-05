@@ -4,8 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activitys.MainActivity">
+    tools:context=".Activitys.NewTodoActivity">
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Titel"
+        app:layout_constraintBottom_toTopOf="@+id/TitelEdit"
+        app:layout_constraintStart_toStartOf="@+id/TitelEdit"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/TitelEdit"
@@ -19,15 +27,6 @@
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Titel"
-        app:layout_constraintBottom_toTopOf="@+id/TitelEdit"
-        app:layout_constraintStart_toStartOf="@+id/TitelEdit"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -35,6 +34,52 @@
         app:layout_constraintBottom_toTopOf="@+id/descriptionEdit"
         app:layout_constraintStart_toStartOf="@+id/descriptionEdit"
         app:layout_constraintTop_toBottomOf="@+id/TitelEdit" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Priorität"
+        app:layout_constraintBottom_toTopOf="@+id/PriorityEdit"
+        app:layout_constraintStart_toStartOf="@+id/PriorityEdit"
+        app:layout_constraintTop_toBottomOf="@+id/DateEdit" />
+
+    <TextView
+        android:id="@+id/KategoryTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Kategory"
+        app:layout_constraintBottom_toTopOf="@+id/selectTVCategory"
+        app:layout_constraintStart_toStartOf="@+id/selectTVCategory"
+        app:layout_constraintTop_toBottomOf="@+id/PriorityEdit" />
+
+    <TextView
+        android:id="@+id/selectTVCategory"
+        android:layout_width="289dp"
+        android:layout_height="57dp"
+        android:hint="Select Category"
+        android:text="Kategory"
+        app:layout_constraintBottom_toTopOf="@+id/cancel"
+        app:layout_constraintStart_toStartOf="@+id/cancel"
+        app:layout_constraintTop_toBottomOf="@+id/KategoryTV" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Datum"
+        app:layout_constraintBottom_toTopOf="@+id/DateEdit"
+        app:layout_constraintStart_toStartOf="@+id/DateEdit"
+        app:layout_constraintTop_toBottomOf="@+id/descriptionEdit" />
+
+    <Spinner
+        android:id="@+id/PriorityEdit"
+        android:layout_width="295dp"
+        android:layout_height="61dp"
+        android:entries="@array/priority"
+        app:layout_constraintBottom_toTopOf="@+id/KategoryTV"
+        app:layout_constraintStart_toStartOf="@+id/KategoryTV"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
     <EditText
         android:id="@+id/descriptionEdit"
@@ -47,23 +92,15 @@
         app:layout_constraintStart_toStartOf="@+id/textView4"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
-    <TextView
-        android:id="@+id/textView3"
+    <EditText
+        android:id="@+id/DateEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Priorität"
-        app:layout_constraintBottom_toTopOf="@+id/PriorityEdit"
-        app:layout_constraintStart_toStartOf="@+id/PriorityEdit"
-        app:layout_constraintTop_toBottomOf="@+id/DateEdit" />
-
-    <Spinner
-        android:id="@+id/PriorityEdit"
-        android:layout_width="295dp"
-        android:layout_height="61dp"
-        android:entries="@array/priority"
-        app:layout_constraintBottom_toTopOf="@+id/cancel"
-        app:layout_constraintStart_toStartOf="@+id/cancel"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        android:ems="10"
+        android:inputType="date"
+        app:layout_constraintBottom_toTopOf="@+id/textView3"
+        app:layout_constraintStart_toStartOf="@+id/textView3"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
     <Button
         android:id="@+id/cancel"
@@ -75,7 +112,7 @@
         app:layout_constraintEnd_toStartOf="@+id/submit"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/PriorityEdit" />
+        app:layout_constraintTop_toBottomOf="@+id/selectTVCategory" />
 
     <Button
         android:id="@+id/submit"
@@ -88,25 +125,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/cancel"
-        app:layout_constraintTop_toBottomOf="@+id/PriorityEdit" />
-
-    <EditText
-        android:id="@+id/DateEdit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="date"
-        app:layout_constraintBottom_toTopOf="@+id/textView3"
-        app:layout_constraintStart_toStartOf="@+id/textView3"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Datum"
-        app:layout_constraintBottom_toTopOf="@+id/DateEdit"
-        app:layout_constraintStart_toStartOf="@+id/DateEdit"
-        app:layout_constraintTop_toBottomOf="@+id/descriptionEdit" />
+        app:layout_constraintTop_toBottomOf="@+id/selectTVCategory" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
