@@ -7,6 +7,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
 import com.example.todo.Dao.CategoryDao;
+import com.example.todo.Dao.CategoryTodoDao;
 import com.example.todo.Dao.PriorityDao;
 import com.example.todo.Dao.TodoDao;
 import com.example.todo.Entity.CategoryTodo;
@@ -23,6 +24,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract TodoDao todoDao();
     public abstract CategoryDao categoryDao();
     public abstract PriorityDao priorityDao();
+    public abstract CategoryTodoDao categoryTodoDao();
 
     public static AppDatabase getDatabase(Context context) {
         if (INSTANCE == null) {

@@ -22,6 +22,9 @@ public interface TodoDao {
     @Query("SELECT * FROM todo WHERE id=:id")
     List<Todo> getTodoById(long id);
 
+    @Query("SELECT * FROM todo WHERE Titel=:name")
+    List<Todo> getTodoByName(String name);
+
     @Update(onConflict = OnConflictStrategy.REPLACE)
     void updateTodo(Todo todo);
 

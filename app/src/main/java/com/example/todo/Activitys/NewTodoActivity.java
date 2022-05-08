@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.todo.AppDatabase;
 import com.example.todo.DatePickerFragment;
 import com.example.todo.Entity.Category;
+import com.example.todo.Entity.CategoryTodo;
 import com.example.todo.Entity.Priority;
 import com.example.todo.Entity.Todo;
 import com.example.todo.R;
@@ -31,8 +32,7 @@ public class NewTodoActivity extends AppCompatActivity {
     TextView textViewCat;
     boolean [] selectedKategory;
     ArrayList<Integer> CategoryList = new ArrayList<>();
-    String[] Categories = new String[]{"test","test2","test3","test4"};
-
+    String[] Categories = new String[100];
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,9 +51,9 @@ public class NewTodoActivity extends AppCompatActivity {
             database.categoryDao().addCategory(new Category("Freizeit"));
             database.categoryDao().addCategory(new Category("Einkaufen"));
         }
-//        for (int i=0;i<=cat.size();i++){
-//            Categories[i]=cat.get(i).name;
-//        }
+        for(int i=0;i<cat.size();i++) {
+//            Categories = cat.get(i).getName();
+        }
         textViewCat=findViewById(R.id.selectTVCategory);
         selectedKategory=new boolean[Categories.length];
         textViewCat.setOnClickListener(new View.OnClickListener() {
@@ -141,6 +141,11 @@ public class NewTodoActivity extends AppCompatActivity {
         Spinner spinner = (Spinner) findViewById(R.id.PriorityEdit);
         database.todoDao().addTodo(new Todo(Titel.getText().toString(),
                 Beschreibung.getText().toString(), date.getText().toString(), spinner.getSelectedItemId() + 1));    //array starts by 0 but DB with 1 -> +1
+        TextView cat= findViewById(R.id.selectTVCategory);
+        String[] categories= cat.toString().split(", ");
+        for (int i=0;i<categories.length;i++) {
+            database.categoryTodoDao().addTodoCategory(new CategoryTodo(database.todoDao().getTodoByName(Titel.getText().toString()).get(0).getId(), database.categoryDao().getCategoryByName(categories[i]).get(0).Category_id));
+        }
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
