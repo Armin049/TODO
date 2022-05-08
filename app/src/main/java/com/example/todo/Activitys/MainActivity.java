@@ -1,27 +1,21 @@
 package com.example.todo.Activitys;
 
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Configuration;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.todo.AppDatabase;
-import com.example.todo.DatePickerFragment;
 import com.example.todo.Entity.Category;
 import com.example.todo.Entity.Priority;
 import com.example.todo.Entity.Todo;
@@ -31,7 +25,6 @@ import com.example.todo.R;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TodoAdapter.OnNoteListener {
@@ -71,6 +64,9 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             database.categoryDao().addCategory(new Category("Einkaufen"));
         }
         getTodos();
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        Boolean myCheck = sharedPreferences.getBoolean("Settings option",true);
+
     }
 
 //    @Override
@@ -90,10 +86,11 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.einstellungen:
-//                setContentView(R.layout.);
+                Intent intent = new Intent(this, SettingsActivity.class);
+                startActivity(intent);
                 return true;
             case R.id.Category:
-                Intent intent = new Intent(this, CategoryActivity.class);
+                intent = new Intent(this, CategoryActivity.class);
                 startActivity(intent);
                 return true;
             case R.id.Prioritys:

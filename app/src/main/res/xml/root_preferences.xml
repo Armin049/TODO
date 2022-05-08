@@ -1,0 +1,16 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="Schriftgröße">
+
+        <ListPreference
+            app:defaultValue="klein"
+            app:entries="@array/size"
+            app:entryValues="@array/size_value"
+            app:key="size"
+            app:title="Schriftgröße"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+
+</PreferenceScreen>

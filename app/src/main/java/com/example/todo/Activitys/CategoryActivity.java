@@ -2,6 +2,8 @@ package com.example.todo.Activitys;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
@@ -11,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.todo.AppDatabase;
 import com.example.todo.Entity.Category;
-import com.example.todo.Entity.Priority;
 import com.example.todo.Lists.CategoryAdapter;
 import com.example.todo.R;
 
@@ -56,5 +57,31 @@ public class CategoryActivity extends AppCompatActivity implements CategoryAdapt
     public void cancel(View view) {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.einstellungen:
+                Intent intent = new Intent(this, SettingsActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.Category:
+                intent = new Intent(this, CategoryActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.Prioritys:
+                intent = new Intent(this, PriorityActivity.class);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

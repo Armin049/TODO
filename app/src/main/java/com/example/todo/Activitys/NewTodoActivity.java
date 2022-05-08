@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
@@ -30,9 +31,10 @@ public class NewTodoActivity extends AppCompatActivity {
 
     private AppDatabase database;
     TextView textViewCat;
-    boolean [] selectedKategory;
+    boolean[] selectedKategory;
     ArrayList<Integer> CategoryList = new ArrayList<>();
     String[] Categories = new String[100];
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,21 +47,25 @@ public class NewTodoActivity extends AppCompatActivity {
             database.priorityDao().addPriority(new Priority("Mittel"));
             database.priorityDao().addPriority(new Priority("Hoch"));
         }
-        if (cat.size()==0){
+        if (cat.size() == 0) {
             database.categoryDao().addCategory(new Category("Arbeiten"));
             database.categoryDao().addCategory(new Category("Uni"));
             database.categoryDao().addCategory(new Category("Freizeit"));
             database.categoryDao().addCategory(new Category("Einkaufen"));
         }
-        for(int i=0;i<cat.size();i++) {
-//            Categories = cat.get(i).getName();
+        List<String> cats = new ArrayList<>();
+        for (int i = 0; i < cat.size(); i++) {
+            cats.add(cat.get(i).getName());
+            System.out.println(cats.get(i));
         }
-        textViewCat=findViewById(R.id.selectTVCategory);
-        selectedKategory=new boolean[Categories.length];
+        cats.toArray(Categories);
+        textViewCat = findViewById(R.id.selectTVCategory);
+        //Create an alter with multiple select Buttons
+        selectedKategory = new boolean[Categories.length];
         textViewCat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder builder= new AlertDialog.Builder(
+                AlertDialog.Builder builder = new AlertDialog.Builder(
                         NewTodoActivity.this
                 );
                 builder.setTitle("Kategorie Auswählen");
@@ -67,11 +73,10 @@ public class NewTodoActivity extends AppCompatActivity {
                 builder.setMultiChoiceItems(Categories, selectedKategory, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i, boolean b) {
-                        if (b){
+                        if (b) {
                             CategoryList.add(i);
                             Collections.sort(CategoryList);
-                        }
-                        else{
+                        } else {
                             CategoryList.remove(i);
                         }
                     }
@@ -79,10 +84,10 @@ public class NewTodoActivity extends AppCompatActivity {
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        StringBuilder stringBuilder=new StringBuilder();
-                        for (int j=0;j<CategoryList.size();j++){
+                        StringBuilder stringBuilder = new StringBuilder();
+                        for (int j = 0; j < CategoryList.size(); j++) {
                             stringBuilder.append(Categories[CategoryList.get(j)]);
-                            if (j!=CategoryList.size()-1){
+                            if (j != CategoryList.size() - 1) {
                                 stringBuilder.append(", ");
                             }
                         }
@@ -98,8 +103,8 @@ public class NewTodoActivity extends AppCompatActivity {
                 builder.setNeutralButton("Clear all", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        for (int j=0;j<selectedKategory.length;j++){
-                            selectedKategory[j]=false;
+                        for (int j = 0; j < selectedKategory.length; j++) {
+                            selectedKategory[j] = false;
                             CategoryList.clear();
                             textViewCat.setText("");
                         }
@@ -119,6 +124,7 @@ public class NewTodoActivity extends AppCompatActivity {
         getData();
     }
 
+    //get the Prioritys for the Spinner
     public void getData() {
         List<String> priority = new ArrayList<String>();
         database = AppDatabase.getDatabase(getApplicationContext());
@@ -133,6 +139,7 @@ public class NewTodoActivity extends AppCompatActivity {
         sItems.setAdapter(adapter);
     }
 
+    //get the Values from the Input fields and create an DB-object
     public void createTodo(View view) {
         database = AppDatabase.getDatabase(getApplicationContext());
         EditText Titel = findViewById(R.id.TitelEdit);
@@ -141,15 +148,16 @@ public class NewTodoActivity extends AppCompatActivity {
         Spinner spinner = (Spinner) findViewById(R.id.PriorityEdit);
         database.todoDao().addTodo(new Todo(Titel.getText().toString(),
                 Beschreibung.getText().toString(), date.getText().toString(), spinner.getSelectedItemId() + 1));    //array starts by 0 but DB with 1 -> +1
-        TextView cat= findViewById(R.id.selectTVCategory);
-        String[] categories= cat.toString().split(", ");
-        for (int i=0;i<categories.length;i++) {
+        TextView cat = findViewById(R.id.selectTVCategory);
+        String[] categories = cat.toString().split(", ");
+        for (int i = 0; i < categories.length; i++) {
             database.categoryTodoDao().addTodoCategory(new CategoryTodo(database.todoDao().getTodoByName(Titel.getText().toString()).get(0).getId(), database.categoryDao().getCategoryByName(categories[i]).get(0).Category_id));
         }
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
 
+    //Cancel Button
     public void cancel(View view) {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);

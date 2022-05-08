@@ -3,12 +3,13 @@ package com.example.todo.Activitys;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
@@ -119,5 +120,31 @@ public class EditTodoActivity extends AppCompatActivity implements DatePickerDia
         String currentDate= DateFormat.getDateInstance().format(calendar.getTime());
         EditText editText=findViewById(R.id.DateEdit);
         editText.setText(currentDate);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.einstellungen:
+                Intent intent = new Intent(this, SettingsActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.Category:
+                intent = new Intent(this, CategoryActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.Prioritys:
+                intent = new Intent(this, PriorityActivity.class);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
