@@ -21,6 +21,9 @@ public interface CategoryDao {
     @Query("SELECT * FROM Category WHERE name=:name")
     List<Category> getCategoryByName(String name);
 
+    @Query("SELECT * FROM Category WHERE Category_id=:id")
+    List<Category> getCategoryByID(long id);
+
     @Query("DELETE FROM Category where name=:name")
     void deleteByName(String name);
 

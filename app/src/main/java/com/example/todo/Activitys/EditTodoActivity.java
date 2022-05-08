@@ -68,9 +68,16 @@ public class EditTodoActivity extends AppCompatActivity implements DatePickerDia
         titel.setText(todo.get(0).Titel);
         desc.setText(todo.get(0).getBeschreibung());
         date.setText(todo.get(0).datetime);
-        List<Category> cat_ID=database.categoryTodoDao().getCategoryTodoById(todo.get(0).getId());
-        System.out.println(cat_ID);
-//        tv.setText(database.);
+        List<Category> cat_ID=database.categoryTodoDao().getCategoryTodoById(id);
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i=0;i<cat_ID.size();i++) {
+            stringBuilder.append(database.categoryDao().getCategoryByID(cat_ID.get(i).getCategory_id()).get(0).getName());
+            if (i != cat_ID.size() - 1) {
+                stringBuilder.append(", ");
+            }
+        }
+        tv.setText(stringBuilder.toString());
+
         List<Priority>prio=database.priorityDao().getPriorityByID(todo.get(0).getPriorityId());
         spinner.setSelection((int) prio.get(0).priorityId-1);   //-1 because the DB starts with 1 and the Array with 0
         EditText editText = findViewById(R.id.DateEdit);
