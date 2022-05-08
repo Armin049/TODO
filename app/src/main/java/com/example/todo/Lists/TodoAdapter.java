@@ -1,5 +1,6 @@
 package com.example.todo.Lists;
 
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -7,8 +8,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.todo.Activitys.MainActivity;
 import com.example.todo.Entity.Todo;
 import com.example.todo.R;
 import com.example.todo.TodoDTO;
@@ -68,6 +71,17 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(holder.itemView.getContext());
+        String size = preferences.getString("size", "");
+            if (size.equals("mittel")){
+                holder.Titel.setTextSize(15);
+            }
+            if (size.equals("groß")){
+                holder.Titel.setTextSize(20);
+            }
+            if (size.equals("klein")){
+                holder.Titel.setTextSize(10);
+            }
         final TodoDTO todo = todos.get(position);
         holder.Titel.setText(todo.getTitel());
         holder.Description.setText("Priorität: " +  todo.getPrio());

@@ -2,14 +2,18 @@ package com.example.todo.Activitys;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -125,11 +129,4 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         intent.putExtra("ID", todos.get(position).getId());
         startActivity(intent);
     }
-
-//    public void size(){
-//        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-//        preferences.get
-//SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-//    Boolean myCheck = sharedPreferences.getBoolean("Settings option",true);
-//    }
 }
