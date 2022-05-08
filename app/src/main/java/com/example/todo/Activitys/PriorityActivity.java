@@ -20,7 +20,7 @@ import com.example.todo.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PriorityActivity extends AppCompatActivity implements PriorityAdapter.OnNoteListenerPrio{
+public class PriorityActivity extends AppCompatActivity implements PriorityAdapter.OnNoteListenerPrio {
 
     private AppDatabase database;
     private RecyclerView.Adapter mAdapter;
@@ -37,32 +37,25 @@ public class PriorityActivity extends AppCompatActivity implements PriorityAdapt
         recyclerView = findViewById(R.id.recyclerViewPrio);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        mAdapter = new PriorityAdapter(prio,this);
+        mAdapter = new PriorityAdapter(prio, this);
         recyclerView.setAdapter(mAdapter);
     }
 
+    //todo add detection if prio is used
+    //deletes the selected Priority
     @Override
     public void onNoteClick(int position) {
-        List<Todo> todo=database.todoDao().getAllTodos();
-        long id=prio.get(position).getPriorityId();
-//        for (int i=0;i<todo.size();i++){
-//            if (todo.get(i).getPriorityId() == id) {
-//                if (id<1) {
-//                    todo.get(i).setPriorityId(id+1);
-//                }
-//                else{
-//                    todo.get(i).setPriorityId(id-1);
-//                }
-//            }
-//        }
+        List<Todo> todo = database.todoDao().getAllTodos();
+        long id = prio.get(position).getPriorityId();
         database.priorityDao().deleteById(id);
-        Intent intent=new Intent(this,MainActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
 
-    public void neuePrio(View view){
+    //creates an new Priority
+    public void neuePrio(View view) {
         EditText neuePrio = findViewById(R.id.neuePrioritaet);
-        if (neuePrio != null){
+        if (neuePrio != null) {
             database.priorityDao().addPriority(new Priority(neuePrio.getText().toString()));
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);

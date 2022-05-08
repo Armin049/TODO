@@ -11,14 +11,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.todo.Entity.Todo;
 import com.example.todo.R;
+import com.example.todo.TodoDTO;
 
 import java.util.List;
 
 public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
-    private List<Todo> todos;
+    private List<TodoDTO> todos;
     private OnNoteListener mOnNoteListener;
 
-    public TodoAdapter(List<Todo> myDataset,OnNoteListener onNoteListener) {
+    public TodoAdapter(List<TodoDTO> myDataset,OnNoteListener onNoteListener) {
         todos = myDataset;
         mOnNoteListener=onNoteListener;
     }
@@ -45,7 +46,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
         }
     }
 
-    public void add(int position, Todo item) {
+    public void add(int position, TodoDTO item) {
         todos.add(position, item);
         notifyItemInserted(position);
     }
@@ -67,9 +68,9 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        final Todo todo = todos.get(position);
+        final TodoDTO todo = todos.get(position);
         holder.Titel.setText(todo.getTitel());
-        holder.Description.setText("Priorität: " +  todo.getPriorityId());
+        holder.Description.setText("Priorität: " +  todo.getPrio());
     }
 
     @Override

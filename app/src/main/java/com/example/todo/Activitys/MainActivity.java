@@ -2,7 +2,6 @@ package com.example.todo.Activitys;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,11 +10,11 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.todo.AppDatabase;
+import com.example.todo.TodoDTO;
 import com.example.todo.Entity.Category;
 import com.example.todo.Entity.Priority;
 import com.example.todo.Entity.Todo;
@@ -34,14 +33,19 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private ArrayList<Todo> todos;
+    TodoDTO todoDTO;
 
     public void getTodos() {
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        List<Todo> todos = database.todoDao().getAllTodos();
-        mAdapter = new TodoAdapter(todos, this);
+        List<Todo>todos = database.todoDao().getAllTodos();
+        List<TodoDTO> todoDTO =new ArrayList<>();
+        for (int i=0; i<todos.size();i++) {
+            todoDTO.add(new TodoDTO(todos.get(i).getId(),todos.get(i).getTitel(),database.priorityDao().getPriorityByID(todos.get(i).priorityId).get(0).name));
+        }
+        mAdapter = new TodoAdapter(todoDTO, this);
         recyclerView.setAdapter(mAdapter);
     }
 
@@ -64,16 +68,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             database.categoryDao().addCategory(new Category("Einkaufen"));
         }
         getTodos();
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        Boolean myCheck = sharedPreferences.getBoolean("Settings option",true);
-
     }
-
-//    @Override
-//    protected void onPause() {
-//        super.onPause();
-//        database.close();
-//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -81,7 +76,6 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         return true;
     }
 
-    //todo add this to every Activity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -131,4 +125,11 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         intent.putExtra("ID", todos.get(position).getId());
         startActivity(intent);
     }
+
+//    public void size(){
+//        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+//        preferences.get
+//SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+//    Boolean myCheck = sharedPreferences.getBoolean("Settings option",true);
+//    }
 }
