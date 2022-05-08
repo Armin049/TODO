@@ -6,6 +6,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -41,14 +42,20 @@ public class PriorityActivity extends AppCompatActivity implements PriorityAdapt
         recyclerView.setAdapter(mAdapter);
     }
 
-    //todo add detection if prio is used
     //deletes the selected Priority
     @Override
     public void onNoteClick(int position) {
-        List<Todo> todo = database.todoDao().getAllTodos();
-        long id = prio.get(position).getPriorityId();
+        List<Priority> prios=database.priorityDao().getAllPriority();
+        long id=prios.get(position).getPriorityId();
+        List<Todo>todo=database.todoDao().getAllTodos();
+        for (int i=0;i<todo.size();i++){
+            if (todo.get(i).priorityId==id){
+                Toast.makeText(getApplicationContext(),"Bitte entferne die Priorität erst aus allen Todos",Toast.LENGTH_SHORT).show();
+                break;
+            }
+        }
         database.priorityDao().deleteById(id);
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent=new Intent(this,MainActivity.class);
         startActivity(intent);
     }
 

@@ -24,6 +24,7 @@ import com.example.todo.Entity.Todo;
 import com.example.todo.R;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -33,7 +34,6 @@ public class NewTodoActivity extends AppCompatActivity {
     TextView textViewCat;
     boolean[] selectedKategory;
     ArrayList<Integer> CategoryList = new ArrayList<>();
-    String[] Categories = new String[100];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,14 +53,10 @@ public class NewTodoActivity extends AppCompatActivity {
             database.categoryDao().addCategory(new Category("Freizeit"));
             database.categoryDao().addCategory(new Category("Einkaufen"));
         }
-        List<String> cats = new ArrayList<>();
-        for (int i = 0; i < cat.size(); i++) {
-            cats.add(cat.get(i).getName());
-            System.out.println(cats.get(i));
-        }
-        cats.toArray(Categories);
+        List<String> names= database.categoryDao().getAllTitels();
+        String[] Categories = names.toArray(new String[0]);
+        //Create an alert with multiple select Buttons
         textViewCat = findViewById(R.id.selectTVCategory);
-        //Create an alter with multiple select Buttons
         selectedKategory = new boolean[Categories.length];
         textViewCat.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,7 +64,7 @@ public class NewTodoActivity extends AppCompatActivity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(
                         NewTodoActivity.this
                 );
-                builder.setTitle("Kategorie Auswählen");
+                builder.setTitle("Kategorien Auswählen");
                 builder.setCancelable(false);
                 builder.setMultiChoiceItems(Categories, selectedKategory, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
@@ -132,8 +128,7 @@ public class NewTodoActivity extends AppCompatActivity {
         for (int i = 1; i <= prio.size(); i++) {       //starting by 1 and later substracting by 1, used to prevent outOfBound Exception
             priority.add(prio.get(i - 1).name);
         }
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-                this, android.R.layout.simple_spinner_item, priority);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, priority);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         Spinner sItems = (Spinner) findViewById(R.id.PriorityEdit);
         sItems.setAdapter(adapter);
@@ -149,9 +144,9 @@ public class NewTodoActivity extends AppCompatActivity {
         database.todoDao().addTodo(new Todo(Titel.getText().toString(),
                 Beschreibung.getText().toString(), date.getText().toString(), spinner.getSelectedItemId() + 1));    //array starts by 0 but DB with 1 -> +1
         TextView cat = findViewById(R.id.selectTVCategory);
-        String[] categories = cat.toString().split(", ");
+        String[] categories = cat.getText().toString().split(", ");
         for (int i = 0; i < categories.length; i++) {
-            database.categoryTodoDao().addTodoCategory(new CategoryTodo(database.todoDao().getTodoByName(Titel.getText().toString()).get(0).getId(), database.categoryDao().getCategoryByName(categories[i]).get(0).Category_id));
+            database.categoryTodoDao().addTodoCategory(new CategoryTodo(database.todoDao().getTodoByName(Titel.getText().toString()).get(0).getId(), database.categoryDao().getCategoryByName(categories[i]).get(0).getCategory_id()));
         }
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);

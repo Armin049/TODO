@@ -61,10 +61,8 @@
         android:layout_width="295dp"
         android:layout_height="61dp"
         android:entries="@array/priority"
-        app:layout_constraintBottom_toTopOf="@+id/cancel"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/KategoryTV"
+        app:layout_constraintStart_toStartOf="@+id/KategoryTV"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
     <Button
@@ -77,7 +75,7 @@
         app:layout_constraintEnd_toStartOf="@+id/button2"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/PriorityEdit"
+        app:layout_constraintTop_toBottomOf="@+id/selectTVCategory"
         tools:ignore="OnClick" />
 
     <Button
@@ -104,6 +102,27 @@
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
     <TextView
+        android:id="@+id/KategoryTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Kategory"
+        app:layout_constraintBottom_toTopOf="@+id/selectTVCategory"
+        app:layout_constraintStart_toStartOf="@+id/selectTVCategory"
+        app:layout_constraintTop_toBottomOf="@+id/PriorityEdit" />
+
+    <TextView
+        android:id="@+id/selectTVCategory"
+        android:layout_width="289dp"
+        android:layout_height="57dp"
+        android:hint="Select Category"
+        android:text="Kategory"
+        app:layout_constraintBottom_toTopOf="@+id/cancel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/KategoryTV" />
+
+    <TextView
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -123,6 +142,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/cancel"
-        app:layout_constraintTop_toBottomOf="@+id/PriorityEdit" />
+        app:layout_constraintTop_toBottomOf="@+id/selectTVCategory" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

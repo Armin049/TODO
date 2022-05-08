@@ -1,6 +1,8 @@
 package com.example.todo.Activitys;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -10,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
@@ -17,6 +20,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.todo.AppDatabase;
 import com.example.todo.DatePickerFragment;
+import com.example.todo.Entity.Category;
+import com.example.todo.Entity.CategoryTodo;
 import com.example.todo.Entity.Priority;
 import com.example.todo.Entity.Todo;
 import com.example.todo.R;
@@ -24,6 +29,7 @@ import com.example.todo.R;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 public class EditTodoActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
@@ -31,6 +37,9 @@ public class EditTodoActivity extends AppCompatActivity implements DatePickerDia
     private AppDatabase database;
     private long TodoID;
     private RecyclerView.Adapter mAdapter;
+    TextView textViewCat;
+    boolean[] selectedKategory;
+    ArrayList<Integer> CategoryList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +49,7 @@ public class EditTodoActivity extends AppCompatActivity implements DatePickerDia
         EditText desc = findViewById(R.id.descriptionEdit);
         EditText date = findViewById(R.id.DateEdit);
         Spinner spinner= findViewById(R.id.PriorityEdit);
+        TextView tv = findViewById(R.id.selectTVCategory);
         getData();
         Long id;
         if (savedInstanceState == null) {
@@ -58,6 +68,9 @@ public class EditTodoActivity extends AppCompatActivity implements DatePickerDia
         titel.setText(todo.get(0).Titel);
         desc.setText(todo.get(0).getBeschreibung());
         date.setText(todo.get(0).datetime);
+        List<Category> cat_ID=database.categoryTodoDao().getCategoryTodoById(todo.get(0).getId());
+        System.out.println(cat_ID);
+//        tv.setText(database.);
         List<Priority>prio=database.priorityDao().getPriorityByID(todo.get(0).getPriorityId());
         spinner.setSelection((int) prio.get(0).priorityId-1);   //-1 because the DB starts with 1 and the Array with 0
         EditText editText = findViewById(R.id.DateEdit);
@@ -66,6 +79,63 @@ public class EditTodoActivity extends AppCompatActivity implements DatePickerDia
             public void onClick(View view) {
                 DialogFragment datePicker = new DatePickerFragment();
                 datePicker.show(getSupportFragmentManager(), "date picker");
+            }
+        });
+        //Category Dropdown
+        List<String> names= database.categoryDao().getAllTitels();
+        String[] Categories = names.toArray(new String[0]);
+        //Create an alert with multiple select Buttons
+        textViewCat = findViewById(R.id.selectTVCategory);
+        selectedKategory = new boolean[Categories.length];
+        textViewCat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(
+                        EditTodoActivity.this
+                );
+                builder.setTitle("Kategorien Auswählen");
+                builder.setCancelable(false);
+                builder.setMultiChoiceItems(Categories, selectedKategory, new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i, boolean b) {
+                        if (b) {
+                            CategoryList.add(i);
+                            Collections.sort(CategoryList);
+                        } else {
+                            CategoryList.remove(i);
+                        }
+                    }
+                });
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        StringBuilder stringBuilder = new StringBuilder();
+                        for (int j = 0; j < CategoryList.size(); j++) {
+                            stringBuilder.append(Categories[CategoryList.get(j)]);
+                            if (j != CategoryList.size() - 1) {
+                                stringBuilder.append(", ");
+                            }
+                        }
+                        textViewCat.setText(stringBuilder.toString());
+                    }
+                });
+                builder.setNegativeButton("abbruch", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+                builder.setNeutralButton("Clear all", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        for (int j = 0; j < selectedKategory.length; j++) {
+                            selectedKategory[j] = false;
+                            CategoryList.clear();
+                            textViewCat.setText("");
+                        }
+                    }
+                });
+                builder.show();
             }
         });
     }
@@ -89,25 +159,27 @@ public class EditTodoActivity extends AppCompatActivity implements DatePickerDia
         sItems.setAdapter(adapter);
     }
 
-    //todo solve Bug
     public void delete(View view){
         database.todoDao().deleteById(TodoID);
         Intent intent=new Intent(this,MainActivity.class);
         startActivity(intent);
     }
 
-    //todo update
     public void update(View view){
-        EditText titeln = findViewById(R.id.TitelEdit);
-        EditText descn = findViewById(R.id.descriptionEdit);
-        EditText daten = findViewById(R.id.DateEdit);
-        Spinner spinner= findViewById(R.id.PriorityEdit);
-            List<Todo> todoo=database.todoDao().getTodoById(TodoID);
-            todoo.get(0).setTitel(titeln.getText().toString());
-            todoo.get(0).setBeschreibung(descn.getText().toString());
-            todoo.get(0).setDatetime(daten.getText().toString());
-            todoo.get(0).setPriorityId(spinner.getSelectedItemId());
-        Intent intent=new Intent(this,MainActivity.class);
+        database = AppDatabase.getDatabase(getApplicationContext());
+        EditText Titel = findViewById(R.id.TitelEdit);
+        EditText Beschreibung = findViewById(R.id.descriptionEdit);
+        EditText date = findViewById(R.id.DateEdit);
+        Spinner spinner = (Spinner) findViewById(R.id.PriorityEdit);
+        database.todoDao().addTodo(new Todo(Titel.getText().toString(),
+                Beschreibung.getText().toString(), date.getText().toString(), spinner.getSelectedItemId() + 1));    //array starts by 0 but DB with 1 -> +1
+        TextView cat = findViewById(R.id.selectTVCategory);
+        String[] categories = cat.toString().split(", ");
+        for (int i = 0; i < categories.length; i++) {
+            database.categoryTodoDao().addTodoCategory(new CategoryTodo(database.todoDao().getTodoByName(Titel.getText().toString()).get(0).getId(), 2));
+        }           //database.categoryDao().getCategoryByName(categories[i]).get(0).Category_id
+        database.todoDao().deleteById(TodoID);
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
 

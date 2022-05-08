@@ -2,28 +2,24 @@ package com.example.todo.Activitys;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.todo.AppDatabase;
-import com.example.todo.TodoDTO;
 import com.example.todo.Entity.Category;
 import com.example.todo.Entity.Priority;
 import com.example.todo.Entity.Todo;
 import com.example.todo.Lists.TodoAdapter;
 import com.example.todo.R;
+import com.example.todo.TodoDTO;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -36,7 +32,6 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
-    private ArrayList<Todo> todos;
     TodoDTO todoDTO;
 
     public void getTodos() {
@@ -54,23 +49,19 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     }
 
     @Override
+    public void onResume(){
+        super.onResume();
+        getTodos();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         database = AppDatabase.getDatabase(getApplicationContext());
         List<Priority> prio = database.priorityDao().getAllPriority();
         List<Category> cat = database.categoryDao().getAllCategory();
-        if (prio.size() == 0) {
-            database.priorityDao().addPriority(new Priority("Gering"));
-            database.priorityDao().addPriority(new Priority("Mittel"));
-            database.priorityDao().addPriority(new Priority("Hoch"));
-        }
-        if (cat.size()==0){
-            database.categoryDao().addCategory(new Category("Arbeiten"));
-            database.categoryDao().addCategory(new Category("Uni"));
-            database.categoryDao().addCategory(new Category("Freizeit"));
-            database.categoryDao().addCategory(new Category("Einkaufen"));
-        }
+
         getTodos();
     }
 
