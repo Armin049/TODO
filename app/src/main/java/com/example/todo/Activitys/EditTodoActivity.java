@@ -178,14 +178,15 @@ public class EditTodoActivity extends AppCompatActivity implements DatePickerDia
         EditText Beschreibung = findViewById(R.id.descriptionEdit);
         EditText date = findViewById(R.id.DateEdit);
         Spinner spinner = (Spinner) findViewById(R.id.PriorityEdit);
+        database.todoDao().deleteById(TodoID);
+        database.categoryTodoDao().deleteByID(TodoID);
         database.todoDao().addTodo(new Todo(Titel.getText().toString(),
                 Beschreibung.getText().toString(), date.getText().toString(), spinner.getSelectedItemId() + 1));    //array starts by 0 but DB with 1 -> +1
         TextView cat = findViewById(R.id.selectTVCategory);
-        String[] categories = cat.toString().split(", ");
+        String[] categories = cat.getText().toString().split(", ");
         for (int i = 0; i < categories.length; i++) {
-            database.categoryTodoDao().addTodoCategory(new CategoryTodo(database.todoDao().getTodoByName(Titel.getText().toString()).get(0).getId(), 2));
-        }           //database.categoryDao().getCategoryByName(categories[i]).get(0).Category_id
-        database.todoDao().deleteById(TodoID);
+            database.categoryTodoDao().addTodoCategory(new CategoryTodo(database.todoDao().getTodoByName(Titel.getText().toString()).get(0).getId(), database.categoryDao().getCategoryByName(categories[i]).get(0).getCategory_id()));
+        }
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
