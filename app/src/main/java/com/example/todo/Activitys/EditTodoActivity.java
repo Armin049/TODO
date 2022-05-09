@@ -178,8 +178,8 @@ public class EditTodoActivity extends AppCompatActivity implements DatePickerDia
         EditText Beschreibung = findViewById(R.id.descriptionEdit);
         EditText date = findViewById(R.id.DateEdit);
         Spinner spinner = (Spinner) findViewById(R.id.PriorityEdit);
-        database.todoDao().deleteById(TodoID);
-        database.categoryTodoDao().deleteByID(TodoID);
+        database.todoDao().deleteById(TodoID);  //usually the DB should detect that Updatestrategy = relace
+        database.categoryTodoDao().deleteByID(TodoID);//in case it doesent the old to do gets deleted
         database.todoDao().addTodo(new Todo(Titel.getText().toString(),
                 Beschreibung.getText().toString(), date.getText().toString(), spinner.getSelectedItemId() + 1));    //array starts by 0 but DB with 1 -> +1
         TextView cat = findViewById(R.id.selectTVCategory);
