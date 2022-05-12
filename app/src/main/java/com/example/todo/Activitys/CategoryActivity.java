@@ -6,6 +6,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -13,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.todo.AppDatabase;
 import com.example.todo.Entity.Category;
+import com.example.todo.Entity.Priority;
+import com.example.todo.Entity.Todo;
 import com.example.todo.Lists.CategoryAdapter;
 import com.example.todo.R;
 
@@ -42,7 +45,12 @@ public class CategoryActivity extends AppCompatActivity implements CategoryAdapt
 
     @Override
     public void onNoteClick(int position) {
-
+        List<Category> cat=database.categoryDao().getAllCategory();
+        long id=cat.get(position).getCategory_id();
+        List<Todo>todo=database.todoDao().getAllTodos();
+        database.categoryDao().deleteByID(id);
+        Intent intent=new Intent(this,MainActivity.class);
+        startActivity(intent);
     }
 
     public void newCategorie(View view){
