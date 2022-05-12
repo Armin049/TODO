@@ -1,19 +1,19 @@
 package com.example.todo.Activitys;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.todo.AppDatabase;
 import com.example.todo.DatePickerFragment;
@@ -23,12 +23,13 @@ import com.example.todo.Entity.Priority;
 import com.example.todo.Entity.Todo;
 import com.example.todo.R;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
-public class NewTodoActivity extends AppCompatActivity {
+public class NewTodoActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
 
     private AppDatabase database;
     TextView textViewCat;
@@ -156,5 +157,16 @@ public class NewTodoActivity extends AppCompatActivity {
     public void cancel(View view) {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+        Calendar calendar= Calendar.getInstance();
+        calendar.set(Calendar.YEAR,year);
+        calendar.set(Calendar.MONTH,month);
+        calendar.set(Calendar.DAY_OF_MONTH,day);
+        String currentDate= DateFormat.getDateInstance().format(calendar.getTime());
+        EditText editText=findViewById(R.id.DateEdit);
+        editText.setText(currentDate);
     }
 }

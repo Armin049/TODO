@@ -22,7 +22,7 @@
         <activity android:name=".Activitys.PriorityActivity"/>
         <activity android:name=".Activitys.CategoryActivity"/>
         <activity android:name=".Activitys.NewTodoActivity"/>
-        <activity android:name=".Activitys.SettingsActivity"></activity>
+        <activity android:name=".Activitys.SettingsActivity"/>
     </application>
 
 </manifest>
