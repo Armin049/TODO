@@ -51,6 +51,7 @@ public class EditTodoActivity extends AppCompatActivity implements DatePickerDia
         Spinner spinner= findViewById(R.id.PriorityEdit);
         TextView tv = findViewById(R.id.selectTVCategory);
         getData();
+        //get all Values from the Database where the ID is X
         Long id;
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
@@ -88,6 +89,7 @@ public class EditTodoActivity extends AppCompatActivity implements DatePickerDia
                 datePicker.show(getSupportFragmentManager(), "date picker");
             }
         });
+        //same as in NewtodoActivity
         //Category Dropdown
         List<String> names= database.categoryDao().getAllTitels();
         String[] Categories = names.toArray(new String[0]);
@@ -152,6 +154,7 @@ public class EditTodoActivity extends AppCompatActivity implements DatePickerDia
         startActivity(intent);
     }
 
+    //fetch the prioritys for the spinner
     public void getData() {
         List<String> priority = new ArrayList<String>();
         database = AppDatabase.getDatabase(getApplicationContext());
@@ -166,12 +169,14 @@ public class EditTodoActivity extends AppCompatActivity implements DatePickerDia
         sItems.setAdapter(adapter);
     }
 
+    //deletes the selected To-do
     public void delete(View view){
         database.todoDao().deleteById(TodoID);
         Intent intent=new Intent(this,MainActivity.class);
         startActivity(intent);
     }
 
+    //updates the current To-do
     public void update(View view){
         database = AppDatabase.getDatabase(getApplicationContext());
         EditText Titel = findViewById(R.id.TitelEdit);

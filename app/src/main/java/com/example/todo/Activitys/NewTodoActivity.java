@@ -43,7 +43,7 @@ public class NewTodoActivity extends AppCompatActivity implements DatePickerDial
         database = AppDatabase.getDatabase(getApplicationContext());
         List<Priority> prio = database.priorityDao().getAllPriority();
         List<Category> cat = database.categoryDao().getAllCategory();
-        if (prio.size() == 0) {
+        if (prio.size() == 0) { //create new Values if there are no Priorities or Category's
             database.priorityDao().addPriority(new Priority("Gering"));
             database.priorityDao().addPriority(new Priority("Mittel"));
             database.priorityDao().addPriority(new Priority("Hoch"));
@@ -56,6 +56,7 @@ public class NewTodoActivity extends AppCompatActivity implements DatePickerDial
         }
         List<String> names= database.categoryDao().getAllTitels();
         String[] Categories = names.toArray(new String[0]);
+
         //Create an alert with multiple select Buttons
         textViewCat = findViewById(R.id.selectTVCategory);
         selectedKategory = new boolean[Categories.length];
@@ -110,6 +111,7 @@ public class NewTodoActivity extends AppCompatActivity implements DatePickerDial
                 builder.show();
             }
         });
+        //initiate DateTimePicker for the Date field
         EditText editText = findViewById(R.id.DateEdit);
         editText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -159,6 +161,7 @@ public class NewTodoActivity extends AppCompatActivity implements DatePickerDial
         startActivity(intent);
     }
 
+    //gets the values from the DatetimePicker and trasform them into a String and write it into the EditText
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
         Calendar calendar= Calendar.getInstance();

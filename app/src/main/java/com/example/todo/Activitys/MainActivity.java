@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     private RecyclerView.LayoutManager layoutManager;
     TodoDTO todoDTO;
 
+    //a methode to get all todos to fill the RecyclerView
     public void getTodos() {
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         recyclerView.setAdapter(mAdapter);
     }
 
+    //if the application was paused and gets started again, the Data gets fetched again
     @Override
     public void onResume(){
         super.onResume();
@@ -71,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         return true;
     }
 
+    //for the settings button
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -91,17 +94,13 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         }
     }
 
+    //gets the user to the create new To-do screen
     public void NewActivity(View view) {
         Intent intent = new Intent(this, NewTodoActivity.class);
         startActivity(intent);
     }
 
-    public void neuePrio(View view) {
-        EditText prio = findViewById(R.id.neuePrioritaet);
-        database.priorityDao().addPriority(new Priority(prio.getText().toString()));
-        setContentView(R.layout.activity_main);
-    }
-
+    //initiate the dateTimePicker
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
         Calendar calendar = Calendar.getInstance();
@@ -113,6 +112,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         editText.setText(currentDate);
     }
 
+    //when the user clicks on an to-do change to edit view
     @Override
     public void onNoteClick(int position) {
         List<Todo> todos = database.todoDao().getAllTodos();
