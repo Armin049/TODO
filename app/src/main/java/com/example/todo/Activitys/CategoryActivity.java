@@ -43,7 +43,7 @@ public class CategoryActivity extends AppCompatActivity implements CategoryAdapt
         recyclerView.setAdapter(mAdapter);
     }
 
-    @Override
+    @Override //get the Button_ID and delete the Category with it
     public void onNoteClick(int position) {
         List<Category> cat=database.categoryDao().getAllCategory();
         long id=cat.get(position).getCategory_id();

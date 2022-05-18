@@ -22,6 +22,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
     private List<TodoDTO> todos;
     private OnNoteListener mOnNoteListener;
 
+    //defines the typ of the Adapter (TodoDTO)
     public TodoAdapter(List<TodoDTO> myDataset,OnNoteListener onNoteListener) {
         todos = myDataset;
         mOnNoteListener=onNoteListener;
@@ -33,6 +34,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
         public View layout;
         OnNoteListener onNoteListener;
 
+        //sets an onclickListener in the Layout
         public ViewHolder(@NonNull View v, OnNoteListener onNoteListener) {
             super(v);
             layout = v;
@@ -69,6 +71,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
         return vh;
     }
 
+    //responsible for the Text in the RecyclerView also reads the size defined in settings and adjusts the Textsize according to it
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(holder.itemView.getContext());
@@ -87,11 +90,11 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
         holder.Description.setText("Priorität: " +  todo.getPrio());
     }
 
+    //overwrite method's
     @Override
     public int getItemCount() {
         return todos.size();
     }
-
 
     public interface OnNoteListener{
         void onNoteClick(int position);

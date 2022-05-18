@@ -50,7 +50,7 @@ public class PriorityActivity extends AppCompatActivity implements PriorityAdapt
         List<Todo>todo=database.todoDao().getAllTodos();
         for (int i=0;i<todo.size();i++){
             if (todo.get(i).priorityId==id){
-                Toast.makeText(getApplicationContext(),"Bitte entferne die Priorität erst aus allen Todos",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),"Bitte entferne die Priorität erst aus allen Todos",Toast.LENGTH_SHORT).show();//to prevent Database errors
                 break;
             }
         }

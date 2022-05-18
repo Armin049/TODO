@@ -35,7 +35,7 @@ public class PriorityAdapter extends RecyclerView.Adapter<PriorityAdapter.ViewHo
             Titel = (TextView) v.findViewById(R.id.PrioLine);
             button = (Button) v.findViewById(R.id.buttonDelete);
             this.onNoteListenerPrio = onNoteListenerPrio;
-
+            //onClickListerner is set on the Button not on the Layout (Different from TodoAdapter)
             button.setOnClickListener(this);
         }
 

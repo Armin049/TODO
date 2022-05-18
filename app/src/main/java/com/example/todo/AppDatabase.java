@@ -14,7 +14,7 @@ import com.example.todo.Entity.CategoryTodo;
 import com.example.todo.Entity.Priority;
 import com.example.todo.Entity.Todo;
 import com.example.todo.Entity.Category;
-
+//instantiate To_do, Category CategoryTodo and Priority
 @Database(entities = {Todo.class, Category.class, CategoryTodo.class, Priority.class
 }, version = 16, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {

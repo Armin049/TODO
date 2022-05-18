@@ -4,7 +4,7 @@ public class TodoDTO {
     private long id;
     private String titel;
     private String prio;
-
+//DTO to transfer the TODO_ID, name and priority_name to the TodoAdapter
     public TodoDTO(long id, String titel, String prio) {
         this.id=id;
         this.titel = titel;
